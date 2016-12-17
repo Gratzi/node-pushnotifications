@@ -48,6 +48,9 @@ module.exports = (regIds, data, settings) => {
     delete opts.id;
     const GCMSender = new gcm.Sender(id, opts);
     const promises = [];
+    const custom = data.custom;
+    custom.title = data.title;
+    custom.body = data.body;
     const message = new gcm.Message({ // See https://developers.google.com/cloud-messaging/http-server-ref#table5
         collapseKey: data.collapseKey,
         priority: data.priority,
@@ -56,21 +59,21 @@ module.exports = (regIds, data, settings) => {
         timeToLive: data.expiry - Math.floor(Date.now() / 1000) || data.timeToLive || 28 * 86400,
         restrictedPackageName: data.restrictedPackageName,
         dryRun: data.dryRun || false,
-        data: data.custom,
-        notification: {
-            title: data.title, // Android, iOS (Watch)
-            body: data.body, // Android, iOS
-            icon: data.icon, // Android
-            sound: data.sound, // Android, iOS
-            badge: data.badge, // iOS
-            tag: data.tag, // Android
-            color: data.color, // Android
-            click_action: data.clickAction || data.category, // Android, iOS
-            body_loc_key: data.locKey, // Android, iOS
-            body_loc_args: data.locArgs, // Android, iOS
-            title_loc_key: data.titleLocKey, // Android, iOS
-            title_loc_args: data.titleLocArgs, // Android, iOS
-        },
+        data: custom,
+        // notification: {
+        //     title: data.title, // Android, iOS (Watch)
+        //     body: data.body, // Android, iOS
+        //     icon: data.icon, // Android
+        //     sound: data.sound, // Android, iOS
+        //     badge: data.badge, // iOS
+        //     tag: data.tag, // Android
+        //     color: data.color, // Android
+        //     click_action: data.clickAction || data.category, // Android, iOS
+        //     body_loc_key: data.locKey, // Android, iOS
+        //     body_loc_args: data.locArgs, // Android, iOS
+        //     title_loc_key: data.titleLocKey, // Android, iOS
+        //     title_loc_args: data.titleLocArgs, // Android, iOS
+        // },
     });
     let chunk = 0;
 
