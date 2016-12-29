@@ -55,6 +55,7 @@ const defaultSettings = {
 
 function PN(options) {
     this.settings = Object.assign({}, defaultSettings, options || {});
+    console.log("SETTINGS: " + this.settings);
 }
 
 PN.prototype.setOptions = function setOptions(opts) {
